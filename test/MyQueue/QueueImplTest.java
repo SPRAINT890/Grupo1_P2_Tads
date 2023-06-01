@@ -50,5 +50,14 @@ class QueueImplTest {
         assertFalse(cola.isEmpty());
         assertEquals(cola.getSize(), 1);
     }
+    @Test
+    void dequeueVacio() throws EmptyQueueException {
+        try {
+            cola.dequeue();
+            assertTrue(false);
+        }catch (EmptyQueueException e){
+            assertTrue(true);
+        }
+    }
 
 }
