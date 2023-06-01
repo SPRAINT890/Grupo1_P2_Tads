@@ -23,7 +23,12 @@ public class StackImpl<V> implements Stack<V>{
         if (isEmpty()){
             throw new EmptyStackException();
         }
+
         head = head.prev;
+
+        if (head == null){
+            return;
+        }
         head.next = null;
     }
 
