@@ -12,7 +12,7 @@ public class QueueImpl <V> implements Queue<V>{
     @Override
     public void enqueue(V value) {
         Node<V> newNode = new Node<> (value);
-        if (head == null){
+        if (isEmpty()){
             head = newNode;
             tail = newNode;
             size++;
@@ -25,12 +25,15 @@ public class QueueImpl <V> implements Queue<V>{
 
     @Override
     public V dequeue() throws EmptyQueueException {
-        if (head == null) {
+        if (isEmpty()) {
             throw new EmptyQueueException();
         }
         Node<V> temp = head;
-        head = head.next;
         size--;
+        head = head.next;
+        if (isEmpty()){
+            tail = null;
+        }
         return temp.data;
     }
 
