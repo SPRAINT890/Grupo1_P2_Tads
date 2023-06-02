@@ -9,13 +9,8 @@ public class main {
         bst.insert(1, "Grape");
         bst.insert(4, "Mango");
 
-        System.out.println(bst.find(5));
-        System.out.println("In-Order:");
-        bst.inOrder();
-        System.out.println("Pre-Order:");
-        bst.preOrder();
-        System.out.println("Post-Order:");
-        bst.postOrder();
+        bst.delete(1);
+        System.out.println();
 
     }
 }

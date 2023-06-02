@@ -1,23 +1,23 @@
 package MyBinarySearchTree;
 
-import Nodos.NodeBST;
+import Nodos.NodeBT;
 
 public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
-    private NodeBST root;
+    private NodeBT root;
 
     public void insert(K key, V value) {
         root = insertN(root, key, value);
     }
 
-    private NodeBST insertN(NodeBST node, K key, V value) {
+    private NodeBT insertN(NodeBT node, K key, V value) {
         if (node == null) {
-            return new NodeBST(key, value);
+            return new NodeBT(key, value);
         }
 
-        int cmp = key.compareTo((K) node.getKey());
-        if (cmp < 0) {
+        int dif = key.compareTo((K) node.getKey());
+        if (dif < 0) {
             node.setLeft(insertN(node.getLeft(), key, value));
-        } else if (cmp > 0) {
+        } else if (dif > 0) {
             node.setRight(insertN(node.getRight(), key, value));
         } else {
             node.setValue(value);
@@ -29,7 +29,7 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         return (V) findN(root, key).getValue();
     }
 
-    private NodeBST findN(NodeBST node, K key) {
+    private NodeBT findN(NodeBT node, K key) {
         if (node == null) {
             return null;
         }
@@ -48,7 +48,7 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         root = deleteN(root, key);
     }
 
-    private NodeBST deleteN(NodeBST node, K key) {
+    private NodeBT deleteN(NodeBT node, K key) {
         if (node == null) {
             return null;
         }
@@ -64,7 +64,7 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
             } else if (node.getRight() == null) {
                 return node.getLeft();
             } else {
-                NodeBST minNode = min(node.getRight());
+                NodeBT minNode = min(node.getRight());
                 node.setKey(minNode.getKey());
                 node.setValue(minNode.getValue());
                 node.setRight(deleteMin(node.getRight()));
@@ -73,14 +73,14 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         return node;
     }
 
-    private NodeBST min(NodeBST node) {
+    private NodeBT min(NodeBT node) {
         if (node.getLeft() == null) {
             return node;
         }
         return min(node.getLeft());
     }
 
-    private NodeBST deleteMin(NodeBST node) {
+    private NodeBT deleteMin(NodeBT node) {
         if (node.getLeft() == null) {
             return node.getRight();
         }
@@ -92,7 +92,7 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         inOrderN(root);
     }
 
-    private void inOrderN(NodeBST node) {
+    private void inOrderN(NodeBT node) {
         if (node != null) {
             inOrderN(node.getLeft());
             System.out.println(node.getKey() + ": " + node.getValue());
@@ -104,7 +104,7 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         preOrderN(root);
     }
 
-    private void preOrderN(NodeBST node) {
+    private void preOrderN(NodeBT node) {
         if (node != null) {
             System.out.println(node.getKey() + ": " + node.getValue());
             preOrderN(node.getLeft());
@@ -116,11 +116,15 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         postOrderN(root);
     }
 
-    private void postOrderN(NodeBST node) {
+    private void postOrderN(NodeBT node) {
         if (node != null) {
             postOrderN(node.getLeft());
             postOrderN(node.getRight());
             System.out.println(node.getKey() + ": " + node.getValue());
         }
+    }
+
+    public NodeBT getRoot() {
+        return root;
     }
 }

@@ -1,13 +1,13 @@
 package Nodos;
 
-public class NodeBST<K extends Comparable<K>, V>{
+public class NodeBT<K extends Comparable<K>, V>{
 
     private K key;
 
     private V value;
-    private NodeBST left;
-    private NodeBST right;
-    public NodeBST(K key, V value) {
+    private NodeBT left;
+    private NodeBT right;
+    public NodeBT(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -27,19 +27,19 @@ public class NodeBST<K extends Comparable<K>, V>{
         this.value = value;
     }
 
-    public NodeBST getLeft() {
+    public NodeBT getLeft() {
         return left;
     }
 
-    public void setLeft(NodeBST left) {
+    public void setLeft(NodeBT left) {
         this.left = left;
     }
 
-    public NodeBST getRight() {
+    public NodeBT getRight() {
         return right;
     }
 
-    public void setRight(NodeBST right) {
+    public void setRight(NodeBT right) {
         this.right = right;
     }
 }
