@@ -1,63 +1,66 @@
 package uy.edu.um.prog2.adt.MyBinarySearchTree;
 
+import uy.edu.um.prog2.adt.MyLinkedlistSimple.LinkedListSimpleImpl;
 import uy.edu.um.prog2.adt.Nodos.NodeBT;
 
-public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
+public class BinarySearchTreeImpl<K extends Comparable<K>, V> implements BinarySearchTree <K, V> {
     private NodeBT root;
+    private LinkedListSimpleImpl<NodeBT> order;
 
+    @Override
     public void insert(K key, V value) {
-        root = insertN(root, key, value);
+        root = insertRecursive(root, key, value);
     }
-
-    private NodeBT insertN(NodeBT node, K key, V value) {
+    private NodeBT insertRecursive(NodeBT node, K key, V value) {
         if (node == null) {
             return new NodeBT(key, value);
         }
 
         int dif = key.compareTo((K) node.getKey());
         if (dif < 0) {
-            node.setLeft(insertN(node.getLeft(), key, value));
+            node.setLeft(insertRecursive(node.getLeft(), key, value));
         } else if (dif > 0) {
-            node.setRight(insertN(node.getRight(), key, value));
+            node.setRight(insertRecursive(node.getRight(), key, value));
         } else {
             node.setValue(value);
         }
         return node;
     }
 
+    @Override
     public V find(K key) {
-        return (V) findN(root, key).getValue();
+        return (V) findRecursive(root, key).getValue();
     }
-
-    private NodeBT findN(NodeBT node, K key) {
+    private NodeBT findRecursive(NodeBT node, K key) {
         if (node == null) {
             return null;
         }
 
         int cmp = key.compareTo((K) node.getKey());
         if (cmp < 0) {
-            return findN(node.getLeft(), key);
+            return findRecursive(node.getLeft(), key);
         } else if (cmp > 0) {
-            return findN(node.getRight(), key);
+            return findRecursive(node.getRight(), key);
         } else {
             return node;
         }
     }
 
+    @Override
     public void delete(K key) {
-        root = deleteN(root, key);
+        root = deleteRecursive(root, key);
     }
 
-    private NodeBT deleteN(NodeBT node, K key) {
+    private NodeBT deleteRecursive(NodeBT node, K key) {
         if (node == null) {
             return null;
         }
 
         int cmp = key.compareTo((K) node.getKey());
         if (cmp < 0) {
-            node.setLeft(deleteN(node.getLeft(), key));
+            node.setLeft(deleteRecursive(node.getLeft(), key));
         } else if (cmp > 0) {
-            node.setRight(deleteN(node.getRight(), key));
+            node.setRight(deleteRecursive(node.getRight(), key));
         } else {
             if (node.getLeft() == null) {
                 return node.getRight();
@@ -87,44 +90,48 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> {
         node.setLeft(deleteMin(node.getLeft()));
         return node;
     }
-
-    public void inOrder() {
-        inOrderN(root);
+    @Override
+    public LinkedListSimpleImpl<NodeBT> inOrder() {
+        order = new LinkedListSimpleImpl<>();
+        return inOrderRecursive(root);
     }
-
-    private void inOrderN(NodeBT node) {
-        if (node != null) {
-            inOrderN(node.getLeft());
-            System.out.println(node.getKey() + ": " + node.getValue());
-            inOrderN(node.getRight());
+    private LinkedListSimpleImpl<NodeBT> inOrderRecursive(NodeBT node) {
+        if (node == null) {
+            return null;
         }
+        inOrderRecursive(node.getLeft());
+        order.addLast(node);
+        inOrderRecursive(node.getRight());
+        return order;
+    }
+    @Override
+    public LinkedListSimpleImpl<NodeBT> preOrder() {
+        order = new LinkedListSimpleImpl<>();
+        return preOrderRecursive(root);
     }
 
-    public void preOrder() {
-        preOrderN(root);
-    }
-
-    private void preOrderN(NodeBT node) {
-        if (node != null) {
-            System.out.println(node.getKey() + ": " + node.getValue());
-            preOrderN(node.getLeft());
-            preOrderN(node.getRight());
+    private LinkedListSimpleImpl<NodeBT> preOrderRecursive(NodeBT node) {
+        if (node == null) {
+            return null;
         }
+        order.addLast(node);
+        preOrderRecursive(node.getLeft());
+        preOrderRecursive(node.getRight());
+        return order;
+    }
+    @Override
+    public LinkedListSimpleImpl<NodeBT> postOrder() {
+        order = new LinkedListSimpleImpl<>();
+        return postOrderRecursive(root);
     }
 
-    public void postOrder() {
-        postOrderN(root);
-    }
-
-    private void postOrderN(NodeBT node) {
-        if (node != null) {
-            postOrderN(node.getLeft());
-            postOrderN(node.getRight());
-            System.out.println(node.getKey() + ": " + node.getValue());
+    private LinkedListSimpleImpl<NodeBT> postOrderRecursive(NodeBT node) {
+        if (node == null) {
+            return null;
         }
-    }
-
-    public NodeBT getRoot() {
-        return root;
+        postOrderRecursive(node.getLeft());
+        postOrderRecursive(node.getRight());
+        order.addLast(node);
+        return order;
     }
 }
