@@ -18,7 +18,7 @@ public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
        tail.next = newNode;
        tail = newNode;
     }
-
+    @Override
     public void addFirst(V value) {
         Node<V> newNode = new Node<> (value);
         if (head == null){
@@ -52,13 +52,13 @@ public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
         }
         tempNode.next = nodoBorrar.next;
     }
-
+    @Override
     public int length(){
         if (head == null){
-            return -1;
+            return 0;
         }
         Node<V> tempNode = head;
-        int c = 0;
+        int c = 1;
         while (tempNode.next != null){
             c++;
             tempNode = tempNode.next;
@@ -83,7 +83,7 @@ public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
         }
         return tempNode.data;
     }
-
+    @Override
     public boolean exist(V data){
         Node <V> tempNode = head;
         if (tempNode == null){
