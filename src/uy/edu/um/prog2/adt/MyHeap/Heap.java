@@ -1,6 +1,10 @@
 package uy.edu.um.prog2.adt.MyHeap;
 
 public interface Heap <K, V> {
-    void add (K key, V value);
-    void delete (K key);
+    void insert (K key, V value);
+    V extractMax ();
+    void heapifyUp();
+    void heapifyDown();
+    int size();
+    boolean is_empty();
 }
