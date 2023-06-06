@@ -6,10 +6,14 @@ import java.util.Arrays;
 
 public class HeapImpl <K extends Comparable<K>, V> implements Heap <K, V>{
     private NodeHeap<K, V>[] list;
-    private int size = 0;
 
+    private int size = 0;
     public HeapImpl(int len) {
         list = new NodeHeap [len];
+    }
+
+    public NodeHeap<K, V>[] getList() {
+        return list;
     }
 
     @Override
@@ -57,8 +61,10 @@ public class HeapImpl <K extends Comparable<K>, V> implements Heap <K, V>{
             Integer nuevoPadre = null;
             if (hijoIzquierdo < size && list[i].getKey().compareTo(list[hijoIzquierdo].getKey()) < 0){
                 nuevoPadre = hijoIzquierdo;
-            }
-            if (hijoDerecho < size && list[i].getKey().compareTo(list[hijoDerecho].getKey()) < 0 && list[nuevoPadre].getKey().compareTo(list[hijoDerecho].getKey()) < 0){
+                if (hijoDerecho < size && list[i].getKey().compareTo(list[hijoDerecho].getKey()) < 0 && list[nuevoPadre].getKey().compareTo(list[hijoDerecho].getKey()) < 0){
+                    nuevoPadre = hijoDerecho;
+                }
+            } else if (hijoDerecho < size && list[i].getKey().compareTo(list[hijoDerecho].getKey()) < 0) {
                 nuevoPadre = hijoDerecho;
             }
             if (nuevoPadre != null){
