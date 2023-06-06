@@ -1,5 +1,6 @@
 package uy.edu.um.prog2.adt.MyBinarySearchTree;
 
+import uy.edu.um.prog2.adt.Exceptions.KeyNotFound;
 import uy.edu.um.prog2.adt.MyLinkedlistSimple.LinkedListSimpleImpl;
 import uy.edu.um.prog2.adt.Nodos.NodeBT;
 
@@ -28,12 +29,12 @@ public class BinarySearchTreeImpl<K extends Comparable<K>, V> implements BinaryS
     }
 
     @Override
-    public V find(K key) {
+    public V find(K key) throws KeyNotFound {
         return (V) findRecursive(root, key).getValue();
     }
-    private NodeBT findRecursive(NodeBT node, K key) {
+    private NodeBT findRecursive(NodeBT node, K key) throws KeyNotFound {
         if (node == null) {
-            return null;
+            throw new KeyNotFound();
         }
 
         int cmp = key.compareTo((K) node.getKey());
