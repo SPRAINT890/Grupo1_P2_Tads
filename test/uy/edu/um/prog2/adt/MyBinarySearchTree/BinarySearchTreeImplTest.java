@@ -11,7 +11,7 @@ class BinarySearchTreeImplTest {
     @Test
     void insertUnValor() throws KeyNotFound {
         bst.insert(1,"1");
-        assertEquals(bst.find(1),1);
+        assertEquals(bst.find(1),"1");
     }
     @Test
     void insertVariosValores(){
