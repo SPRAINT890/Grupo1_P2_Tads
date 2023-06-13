@@ -24,7 +24,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
     @Override
     public void insert(K key, V value) {
         NodeHash<K, V> newNode = new NodeHash<>(key, value);
-        int index = calculateHash((Integer) key);
+        int index = calculateHash(key);
         while (true){
             if (index == list.length){
                 index = 0;
@@ -43,7 +43,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
 
     @Override
     public V search(K key) throws KeyNotFound {
-        int keyIndex, keyIndexAux = calculateHash((Integer) key);
+        int keyIndex, keyIndexAux = calculateHash(key);
         keyIndex = keyIndexAux;
         while (true){
             if (keyIndexAux > list.length){
@@ -66,7 +66,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
 
     @Override
     public void delete(K key) throws KeyNotFound {
-        int keyIndex, keyIndexAux = calculateHash((Integer) key);
+        int keyIndex, keyIndexAux = calculateHash(key);
         keyIndex = keyIndexAux;
         while (true){
             if (keyIndexAux > list.length){
@@ -85,8 +85,15 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
             }
         }
     }
-    private int calculateHash(int key) {
-        return key % list.length;
+    private int calculateHash(K key) {
+        int hash = 0;
+        if (key instanceof Long) {
+            hash = (int) (((Long) key).longValue() % list.length);
+        }
+        if (key instanceof Integer) {
+            hash = ((Integer) key).intValue() % list.length;
+        }
+        return hash;
     }
 
     private void increaseCapacity() {
