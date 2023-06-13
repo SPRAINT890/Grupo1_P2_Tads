@@ -42,25 +42,25 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
     }
 
     @Override
-    public V search(K key) throws KeyNotFound {
+    public V search(K key) {
         int keyIndex, keyIndexAux = calculateHash(key);
         keyIndex = keyIndexAux;
         while (true){
-            if (keyIndexAux > list.length){
-                keyIndex = 0;
+            if (keyIndexAux >= list.length){
+                keyIndexAux = 0;
+            }
+            if (keyIndex == keyIndexAux){
+                return null;
             }
             if (list[keyIndexAux] != null){
                 if (list[keyIndexAux].getKey() == key && list[keyIndexAux].isActivo()){
                     return list[keyIndexAux].getValue();
                 }
                 if (list[keyIndexAux].getKey() == key && !list[keyIndexAux].isActivo()){
-                    throw new KeyNotFound();
+                    return null;
                 }
             }
             keyIndexAux++;
-            if (keyIndex == keyIndexAux){
-                throw new KeyNotFound();
-            }
         }
     }
 
@@ -93,7 +93,20 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
         if (key instanceof Integer) {
             hash = ((Integer) key).intValue() % list.length;
         }
+        if (key instanceof String){
+            hash = calcString((String) key) % list.length;
+        }
         return hash;
+    }
+
+    private int calcString(String str){
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isLetter(str.charAt(i))) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private void increaseCapacity() {
