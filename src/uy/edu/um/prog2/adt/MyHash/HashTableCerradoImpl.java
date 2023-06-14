@@ -45,15 +45,17 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
     public V search(K key) {
         int keyIndex, keyIndexAux = calculateHash(key);
         keyIndex = keyIndexAux;
+        boolean vueltaCompleta = false;
         while (true){
             if (keyIndexAux >= list.length){
                 keyIndexAux = 0;
+                vueltaCompleta = true;
             }
-            if (keyIndex == keyIndexAux){
+            if (keyIndex == keyIndexAux && vueltaCompleta){
                 return null;
             }
             if (list[keyIndexAux] != null){
-                if (list[keyIndexAux].getKey() == key && list[keyIndexAux].isActivo()){
+                if (list[keyIndexAux].getKey().compareTo(key) == 0 && list[keyIndexAux].isActivo()){
                     return list[keyIndexAux].getValue();
                 }
                 if (list[keyIndexAux].getKey() == key && !list[keyIndexAux].isActivo()){
@@ -94,16 +96,25 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
             hash = ((Integer) key).intValue() % list.length;
         }
         if (key instanceof String){
-            hash = calcString((String) key) % list.length;
+            hash = (int) (calcString((String) key) % list.length);
         }
         return hash;
     }
 
-    private int calcString(String str){
-        int count = 0;
+    private long calcString(String str){
+        int count = 10;
+        if (str.contains("a") || str.contains("A")){
+            count *= 10;
+        }
+        if (str.contains("e") || str.contains("E")){
+            count *= 20;
+        }
+        if (str.contains("i") || str.contains("I")){
+            count *= 30;
+        }
         for (int i = 0; i < str.length(); i++) {
             if (Character.isLetter(str.charAt(i))) {
-                count++;
+                count ++;
             }
         }
         return count;
