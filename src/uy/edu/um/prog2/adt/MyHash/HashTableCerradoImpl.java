@@ -3,8 +3,6 @@ package uy.edu.um.prog2.adt.MyHash;
 import uy.edu.um.prog2.adt.Exceptions.KeyNotFound;
 import uy.edu.um.prog2.adt.Nodos.NodeHash;
 
-import java.util.Arrays;
-
 public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTableCerrado<K, V> {
 
     private NodeHash<K, V>[] list;
@@ -122,13 +120,9 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
 
     private void increaseCapacity() {
         int newCapacity = (int) (list.length * 1.3);
-        if (newCapacity == list.length){// si se elige un valor muy chico, puede que redondee el mismo numero
-            list = Arrays.copyOf(list, newCapacity+1);
-            return;
-        }
         NodeHash<K, V>[] oldList = list;
 
-        HashTableCerradoImpl<K, V> newHash = new HashTableCerradoImpl(newCapacity);
+        HashTableCerradoImpl<K, V> newHash = new HashTableCerradoImpl(newCapacity+1);
         for (int i = 0; i<oldList.length; i++){
             if (oldList[i] != null){
                 newHash.insert(oldList[i].getKey(), oldList[i].getValue());

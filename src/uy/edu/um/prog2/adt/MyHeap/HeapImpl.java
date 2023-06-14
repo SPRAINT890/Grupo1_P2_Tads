@@ -1,8 +1,6 @@
 package uy.edu.um.prog2.adt.MyHeap;
-
 import uy.edu.um.prog2.adt.Nodos.NodeHeap;
 
-import java.util.Arrays;
 
 public class HeapImpl <K extends Comparable<K>, V> implements Heap <K, V>{
     private NodeHeap<K, V>[] list;
@@ -10,6 +8,10 @@ public class HeapImpl <K extends Comparable<K>, V> implements Heap <K, V>{
     private int size = 0;
     public HeapImpl(int len) {
         list = new NodeHeap [len];
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public NodeHeap<K, V>[] getList() {
@@ -97,9 +99,19 @@ public class HeapImpl <K extends Comparable<K>, V> implements Heap <K, V>{
     private void increaseCapacity() {
         int newCapacity = (int) (list.length * 1.5);
         if (newCapacity == list.length){// si se elige un valor muy chico, puede que redondee el mismo numero
-            list = Arrays.copyOf(list, newCapacity+1);
+            list = copyArray(list, newCapacity+1);
             return;
         }
-        list = Arrays.copyOf(list, newCapacity);
+        list = copyArray(list, newCapacity);
+    }
+
+    private NodeHeap<K, V>[] copyArray(NodeHeap<K, V>[] oldList, int capacity){
+        HeapImpl<K, V> newHeap = new HeapImpl<>(capacity+1);
+        for (int i = 0; i<oldList.length; i++){
+            if (oldList[i] != null){
+                newHeap.insert(oldList[i].getKey(), oldList[i].getValue());
+            }
+        }
+        return newHeap.getList();
     }
 }
