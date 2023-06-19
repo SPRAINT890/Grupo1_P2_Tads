@@ -8,9 +8,13 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
     private NodeHash<K, V>[] list;
 
     private int size = 0;
+    private static final int DEFAULT = 200;
 
     public HashTableCerradoImpl(int len) {
         this.list = new NodeHash[len];
+    }
+    public HashTableCerradoImpl() {
+        this.list = new NodeHash[DEFAULT];
     }
     public NodeHash<K, V>[] getList() {
         return list;
@@ -49,16 +53,14 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
                 keyIndexAux = 0;
                 vueltaCompleta = true;
             }
-            if (keyIndex == keyIndexAux && vueltaCompleta){
+            if (keyIndex == keyIndexAux && vueltaCompleta || list[keyIndexAux] == null){
                 return null;
             }
-            if (list[keyIndexAux] != null){
-                if (list[keyIndexAux].getKey().compareTo(key) == 0 && list[keyIndexAux].isActivo()){
-                    return list[keyIndexAux].getValue();
-                }
-                if (list[keyIndexAux].getKey() == key && !list[keyIndexAux].isActivo()){
-                    return null;
-                }
+            if (list[keyIndexAux].getKey().compareTo(key) == 0 && list[keyIndexAux].isActivo()){
+                return list[keyIndexAux].getValue();
+            }
+            if (list[keyIndexAux].getKey() == key && !list[keyIndexAux].isActivo()){
+                return null;
             }
             keyIndexAux++;
         }
