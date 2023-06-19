@@ -65,7 +65,28 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
             keyIndexAux++;
         }
     }
+    public void setValue(K key, V newVal){
+        int keyIndex, keyIndexAux = calculateHash(key);
+        keyIndex = keyIndexAux;
+        boolean vueltaCompleta = false;
 
+        while (true){
+            if (keyIndexAux >= list.length){
+                keyIndexAux = 0;
+                vueltaCompleta = true;
+            }
+            if (keyIndex == keyIndexAux && vueltaCompleta || list[keyIndexAux] == null){
+               break;
+            }
+            if (list[keyIndexAux].getKey().compareTo(key) == 0 && list[keyIndexAux].isActivo()){
+                list[keyIndexAux].setValue(newVal);
+            }
+            if (list[keyIndexAux].getKey() == key && !list[keyIndexAux].isActivo()){
+                break;
+            }
+            keyIndexAux++;
+        }
+    }
     @Override
     public void delete(K key) throws KeyNotFound {
         int keyIndex, keyIndexAux = calculateHash(key);
