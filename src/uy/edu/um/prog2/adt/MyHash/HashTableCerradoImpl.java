@@ -117,7 +117,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
             hash = ((Integer) key).intValue() % list.length;
         }
         if (key instanceof String){
-            hash = (int) (calcString((String) key) % list.length);
+            hash = Math.floorMod(key.hashCode(), list.length);
         }
         return hash;
     }
@@ -142,7 +142,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
     }
 
     private void increaseCapacity() {
-        int newCapacity = (int) (list.length * 1.3);
+        int newCapacity = (list.length * 2);
         NodeHash<K, V>[] oldList = list;
 
         HashTableCerradoImpl<K, V> newHash = new HashTableCerradoImpl(newCapacity+1);
