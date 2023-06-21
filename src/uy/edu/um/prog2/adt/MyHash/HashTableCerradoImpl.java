@@ -1,12 +1,13 @@
 package uy.edu.um.prog2.adt.MyHash;
 
 import uy.edu.um.prog2.adt.Exceptions.KeyNotFound;
+import uy.edu.um.prog2.adt.MyLinkedlistSimple.LinkedListSimpleImpl;
 import uy.edu.um.prog2.adt.Nodos.NodeHash;
 
 public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTableCerrado<K, V> {
 
     private NodeHash<K, V>[] list;
-
+    private LinkedListSimpleImpl<K> keys = new LinkedListSimpleImpl<>();
     private int size = 0;
     private static final int DEFAULT = 200;
 
@@ -38,6 +39,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
             }
             index++;
         }
+        keys.addLast(key);
         if ((double) ( (size*100) / list.length) > 70.0){
             increaseCapacity();
         }
@@ -107,6 +109,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
                 throw new KeyNotFound();
             }
         }
+        keys.removeForData(key);
     }
     private int calculateHash(K key) {
         int hash = 0;
@@ -155,4 +158,7 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
         size = newHash.getSize();
     }
 
+    public LinkedListSimpleImpl<K> getKeys() {
+        return keys;
+    }
 }

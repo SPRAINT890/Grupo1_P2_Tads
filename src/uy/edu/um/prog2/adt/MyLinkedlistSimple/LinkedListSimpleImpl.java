@@ -5,6 +5,7 @@ import uy.edu.um.prog2.adt.Nodos.Node;
 public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
     public Node<V> head;
     public Node<V> tail;
+    public Integer size = 0;
     
 
     @Override
@@ -17,6 +18,7 @@ public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
        }
        tail.next = newNode;
        tail = newNode;
+       size++;
     }
     @Override
     public void addFirst(V value) {
@@ -28,14 +30,12 @@ public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
         }
         newNode.next = head;
         head = newNode;
+        size++;
     }
 
     @Override
-    public void remove(int index) {
-        if (head == null){
-            return;
-        }
-        if (index > this.length()){
+    public void removeForIndex(int index) {
+        if (head == null || index > this.size){
             return;
         }
         if (index == 0){
@@ -51,27 +51,26 @@ public class LinkedListSimpleImpl<V> implements LinkedListSimple<V> {
             tail = tempNode;
         }
         tempNode.next = nodoBorrar.next;
+        size--;
     }
+
     @Override
-    public int length(){
-        if (head == null){
-            return 0;
-        }
+    public void removeForData(V value) {
         Node<V> tempNode = head;
-        int c = 1;
-        while (tempNode.next != null){
-            c++;
+        while (!tempNode.next.data.equals(value)){
             tempNode = tempNode.next;
         }
-        return c;
+        Node<V> nodoBorrar = tempNode.next;
+        if (nodoBorrar == tail){
+            tail = tempNode;
+        }
+        tempNode.next = nodoBorrar.next;
+        size--;
     }
 
     @Override
     public V get(int index) {
-        if (head == null){
-            return null;
-        }
-        if (index > this.length()){
+        if (head == null || index > this.size){
             return null;
         }
         if (index == 0) {

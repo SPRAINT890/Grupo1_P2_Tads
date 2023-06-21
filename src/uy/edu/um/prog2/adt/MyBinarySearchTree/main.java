@@ -18,12 +18,12 @@ public class main {
 
         LinkedListSimpleImpl<NodeBT> order = new LinkedListSimpleImpl<>();
         order = bst.postOrder();
-        for (int i = 0; i<order.length(); i++){
+        for (int i = 0; i<order.size; i++){
             System.out.println(order.get(i).getKey() + " " + order.get(i).getValue() );
         }
         System.out.println(" ");
         order = bst.preOrder();
-        for (int i = 0; i<order.length(); i++){
+        for (int i = 0; i<order.size; i++){
             System.out.println(order.get(i).getKey() + " " + order.get(i).getValue() );
         }
         /*
