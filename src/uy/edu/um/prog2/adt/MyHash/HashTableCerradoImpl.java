@@ -149,13 +149,14 @@ public class HashTableCerradoImpl<K extends Comparable<K>,V> implements HashTabl
         NodeHash<K, V>[] oldList = list;
 
         HashTableCerradoImpl<K, V> newHash = new HashTableCerradoImpl(newCapacity+1);
-        for (int i = 0; i<oldList.length; i++){
-            if (oldList[i] != null){
-                newHash.insert(oldList[i].getKey(), oldList[i].getValue());
+
+        for (NodeHash<K, V> nodo : oldList){
+            if (nodo == null){
+                continue;
             }
+            newHash.insert(nodo.getKey(), nodo.getValue());
         }
         list = newHash.getList();
-        size = newHash.getSize();
     }
 
     public LinkedListSimpleImpl<K> getKeys() {
